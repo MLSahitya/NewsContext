@@ -1,0 +1,37 @@
+<h1>Listing feedentries</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+  <!--  <th>Summary</th> 
+    <th>Url</th> -->
+    <th>Pubon</th>
+    <th>Guid</th>
+    <th>Type</th>
+ <!--   <th>Article</th>
+    <th>Keywords</th> -->
+    <th></th>
+ <!--   <th></th>
+    <th></th>  -->
+  </tr>
+
+<% @feedentries.each do |feedentry| %>
+  <tr>
+    <td><%= feedentry.name %></td>
+  <!--  <td><%= feedentry.summary %></td>
+    <td><%= feedentry.url %></td> -->
+    <td><%= feedentry.pubon %></td>
+    <td><%= feedentry.guid %></td>
+    <td><%= feedentry.type %></td>
+  <!--  <td><%= feedentry.article %></td>
+    <td><%= feedentry.keywords %></td>  -->
+    <td><%= link_to 'Show', feedentry %></td>
+ <!--    <td><%= link_to 'Edit', edit_feedentry_path(feedentry) %></td>
+    <td><%= link_to 'Destroy', feedentry, method: :delete, data: { confirm: 'Are you sure?' } %></td> -->
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Feedentry', new_feedentry_path %>

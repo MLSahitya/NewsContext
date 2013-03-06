@@ -1,0 +1,49 @@
+<%= form_for(@feedentry) do |f| %>
+  <% if @feedentry.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@feedentry.errors.count, "error") %> prohibited this feedentry from being saved:</h2>
+
+      <ul>
+      <% @feedentry.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :summary %><br />
+    <%= f.text_field :summary %>
+  </div>
+  <div class="field">
+    <%= f.label :url %><br />
+    <%= f.text_field :url %>
+  </div>
+  <div class="field">
+    <%= f.label :pubon %><br />
+    <%= f.text_field :pubon %>
+  </div>
+  <div class="field">
+    <%= f.label :guid %><br />
+    <%= f.text_field :guid %>
+  </div>
+  <div class="field">
+    <%= f.label :type %><br />
+    <%= f.text_field :type %>
+  </div>
+  <div class="field">
+    <%= f.label :article %><br />
+    <%= f.text_area :article %>
+  </div>
+  <div class="field">
+    <%= f.label :keywords %><br />
+    <%= f.text_field :keywords %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
