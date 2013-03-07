@@ -64,15 +64,17 @@ STOPWORDS = ["a","able","about","above","abst","accordance","according","accordi
 
   def self.update_from_feed(feed_url,topic)
     
-    feed = Feedzirra::Feed.fetch_and_parse(feed_url) #parsing the rss feed
+       feed = Feedzirra::Feed.fetch_and_parse(feed_url) #parsing the rss feed
        begin    
           feed.entries.each do |entry|
           
   	  unless Feedentry.where(guid: entry.id, name: entry.title).exists? 
           
 	  #reading the complete article 
-	  #source = open(entry.id).read
-          #art = Readability::Document.new(source).content
+	  source = open(entry.id).read
+          art = Readability::Document.new(source).content
+          art = art.gsub /\<.*?\>/,''
+          
 	    
           create!(
           :name         => entry.title,
@@ -81,7 +83,7 @@ STOPWORDS = ["a","able","about","above","abst","accordance","according","accordi
           :pubon => entry.published,
           :guid         => entry.id,
           :type => topic,
-          :article => "",  
+          :article => art,  
           :keywords => ""
           )
  
@@ -102,9 +104,9 @@ STOPWORDS = ["a","able","about","above","abst","accordance","according","accordi
 	@feeds= Feedentry.all
         @feeds.each do |feed| 
          #reading the complete article 
-          if feed.article==""
+          if feed.article=="" || feed.article==" "
 	  begin
-	  source = open(feed.guid).read
+	  source = open(feed.url).read
           art = Readability::Document.new(source).content
           art = art.gsub /\<.*?\>/,''
           
@@ -113,25 +115,25 @@ STOPWORDS = ["a","able","about","above","abst","accordance","according","accordi
           end
           Feedentry.find(feed._id).set(:article, art)
           end
-     end      
+     end   
   end
    
     #obtain the keywords of each article stored
   def self.keywordsExtract
        # stopwordArray
-	@feeds =Feedentry.last
-        #@feeds.each do |feed|
+	@feeds =Feedentry.all
+        @feeds.each do |feed|
         art =''
-          if @feeds.name == nil 
-          	@feeds.name = " "
+          if feed.name == nil 
+          	feed.name = " "
           end
-          if @feeds.summary == nil 
-		@feeds.summary = " "
+          if feed.summary == nil 
+		feed.summary = " "
 	  end
-          if @feeds.article == nil 
-		@feeds.article = " "
+          if feed.article == nil 
+		feed.article = " "
  	  end
-          art = @feeds.name + ' ' + @feeds.summary + ' ' + @feeds.article
+          art = feed.name + ' ' + feed.summary + ' ' + feed.article
           art =art.downcase
           stmt = art.gsub /\<.*?\>/,''
   
@@ -153,10 +155,9 @@ STOPWORDS = ["a","able","about","above","abst","accordance","according","accordi
            stmt  = stmt + ' ' + key     
           end
           puts stmt
-#          Feedentry.find(feed._id).set(:keywords, stmt)
- #       end      
+          Feedentry.find(feed._id).set(:keywords, stmt)
+       end      
 
     end
-
 
 end

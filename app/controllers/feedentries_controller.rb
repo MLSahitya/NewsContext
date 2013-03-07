@@ -6,18 +6,16 @@ class FeedentriesController < ApplicationController
 
   # store all the feeds into the database from the sources listed.
   def storeFeeds
-#	@sources= Source.all
- #       @sources.each do |source| 
-  #      puts source.url
-   #     Feedentry.update_from_feed(source.url,source.name)
-    #    end  
-        puts "storage of Main Article for stored feeds going on ........"
-        Feedentry.storeArticle
-        puts " Extracting Keywords for the articles stored ..........."
-       # Feedentry.keywordsExtract
-      
+ 	@sources= Source.all
+        @sources.each do |source| 
+          puts source.url
+          Feedentry.update_from_feed(source.url,source.name)
+        end  
+        #puts "storage of Main Article for stored feeds going on ........"
+        #Feedentry.storeArticle
+        puts "Extracting Keywords for the articles stored ..........."
+        Feedentry.keywordsExtract   
   end
-
 
   # GET /feedentries
   # GET /feedentries.json
