@@ -8,22 +8,26 @@ class FeedentriesController < ApplicationController
   def storeFeeds
  	@sources= Source.all
         @sources.each do |source| 
-          puts source.url
-          Feedentry.update_from_feed(source.url,source.name)
+         puts source.url
+         Feedentry.update_from_feed(source.url,source.name)
         end  
         #puts "storage of Main Article for stored feeds going on ........"
         #Feedentry.storeArticle
-        puts "Extracting Keywords for the articles stored ..........."
-        Feedentry.keywordsExtract   
+        #puts "Extracting Keywords for the articles stored ..........."
+        #Feedentry.keywordsExtract
+        #Feedentry.clean
+# exporting the data to csv 
+ result = %x[mongoexport --host localhost --db articles_development -c feedentries --csv --out /home/newscontext/rails_projects/articles/app/assets/fe.csv -f _id,keywords]
   end
 
   # GET /feedentries
   # GET /feedentries.json
   def index
-   if @@flagf == 0
-       @@flagf = 1
-       storeFeeds
-   end
+   #if @@flagf == 0
+   #    @@flagf = 1
+   #    storeFeeds
+   #end
+    storeFeeds
      @feedentries = Feedentry.all
 
     respond_to do |format|

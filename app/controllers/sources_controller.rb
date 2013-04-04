@@ -12,7 +12,7 @@ class SourcesController < ApplicationController
   # GET /sources.json
   def index
     if @@flags == 0
-       @@flags = 1 
+      @@flags = 1 
    # call to store all the rss feed urls into the database 
       sourceStore() 
     end

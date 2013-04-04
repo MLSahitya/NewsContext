@@ -71,20 +71,40 @@ STOPWORDS = ["a","able","about","above","abst","accordance","according","accordi
   	  unless Feedentry.where(guid: entry.id, name: entry.title).exists? 
           
 	  #reading the complete article 
-	  source = open(entry.id).read
-          art = Readability::Document.new(source).content
-          art = art.gsub /\<.*?\>/,''
-          
-	    
+	  #source = open(entry.id).read
+          #art = Readability::Document.new(source).content
+          #art = art.gsub /\<.*?\>/,''
+          summ=entry.summary
+          summ=summ.gsub /\<.*?\>/,''
+	  stmt = entry.title + ' ' + summ 
+          stmt = stmt.downcase
+	  words = stmt.scan(/\w+/)
+    	  # stopwords removal from the obtained list of words from the title,summary, article
+          keywords = words - STOPWORDS
+	  #puts "------------------------------------------------------------------"
+          # Steming of the words
+          words = keywords
+          keywords = []
+          stmt =''
+          words.each do |key|
+           stmt  = stmt + ' ' + Lingua.stemmer(key, :language=>"en")
+          end
+          keywords =stmt.scan(/\w+/)
+          keywords = keywords.uniq
+	  stmt = ''
+          keywords.each do |key|
+           stmt  = stmt + ' ' + key     
+          end
+            
           create!(
           :name         => entry.title,
-          :summary      => entry.summary,
+          :summary      => summ,
           :url          => entry.url,
           :pubon => entry.published,
           :guid         => entry.id,
           :type => topic,
-          :article => art,  
-          :keywords => ""
+          :article => "",  
+          :keywords => stmt
           )
  
           end
@@ -100,6 +120,16 @@ STOPWORDS = ["a","able","about","above","abst","accordance","according","accordi
       
   end
   
+  def self.clean
+     @feeds=Feedentry.all
+     @feeds.each do  |feed| 
+     stmt = feed.summary
+     puts stmt
+     stmt = stmt.gsub /\<.*?\>/,''
+     Feedentry.find(feed._id).set(:summary,stmt)
+     end
+  end
+
   def self.storeArticle
 	@feeds= Feedentry.all
         @feeds.each do |feed| 
@@ -133,14 +163,16 @@ STOPWORDS = ["a","able","about","above","abst","accordance","according","accordi
           if feed.article == nil 
 		feed.article = " "
  	  end
-          art = feed.name + ' ' + feed.summary + ' ' + feed.article
-          art =art.downcase
-          stmt = art.gsub /\<.*?\>/,''
-  
+          art1 = feed.name + ' ' + feed.summary 
+          art2 = feed.article
+	  art1 =art1.downcase
+	  art2 =art2.downcase
+          #stmt = art.gsub /\<.*?\>/,''
+          stmt = art1 + ' main_article_key ' + art2
           words = stmt.scan(/\w+/)
     	  # stopwords removal from the obtained list of words from the title,summary, article
           keywords = words - STOPWORDS
-	  puts "------------------------------------------------------------------"
+	  #puts "------------------------------------------------------------------"
           # Steming of the words
           words = keywords
           keywords = []
@@ -154,8 +186,8 @@ STOPWORDS = ["a","able","about","above","abst","accordance","according","accordi
           keywords.each do |key|
            stmt  = stmt + ' ' + key     
           end
-          puts stmt
-          Feedentry.find(feed._id).set(:keywords, stmt)
+         # puts stmt
+          Feedentry.find(feed._id).set(:keywords,stmt)
        end      
 
     end
