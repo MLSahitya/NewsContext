@@ -24,7 +24,9 @@ guides.rubyonrails.org/command_line.html
 ruby on rails tutorial :- ruby.railstutorial.org/ruby-on-rails-tutorial-book
 
 git commit commands
-
+git add .
+git commit -a -m "msg"
+git push
 
 mongodb commands
 
