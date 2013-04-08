@@ -63,15 +63,15 @@ STOPWORDS = ["a","able","about","above","abst","accordance","according","accordi
   field :keywords, type: String
 
   def self.update_from_feed(feed_url,topic)
-    
+       feedcount = 0
        feed = Feedzirra::Feed.fetch_and_parse(feed_url) #parsing the rss feed
        begin    
-          feed.entries.each do |entry|
-          
-  	  unless Feedentry.where(guid: entry.id, name: entry.title).exists? 
+         feed.entries.each do |entry|
+ 	  unless Feedentry.where(guid: entry.id, name: entry.title).exists? 
           
 	  #reading the complete article 
 	  #source = open(entry.id).read
+           art=""
           #art = Readability::Document.new(source).content
           #art = art.gsub /\<.*?\>/,''
           summ=entry.summary
@@ -90,12 +90,12 @@ STOPWORDS = ["a","able","about","above","abst","accordance","according","accordi
            stmt  = stmt + ' ' + Lingua.stemmer(key, :language=>"en")
           end
           keywords =stmt.scan(/\w+/)
-          keywords = keywords.uniq
+          #keywords = keywords.uniq
 	  stmt = ''
           keywords.each do |key|
            stmt  = stmt + ' ' + key     
           end
-            
+          #puts "sahitya"
           create!(
           :name         => entry.title,
           :summary      => summ,
@@ -103,10 +103,17 @@ STOPWORDS = ["a","able","about","above","abst","accordance","according","accordi
           :pubon => entry.published,
           :guid         => entry.id,
           :type => topic,
-          :article => "",  
+          :article => art,  
           :keywords => stmt
           )
- 
+
+
+          #filename = "/home/newscontext/rails_projects/articles/TextFiles/"+entry.title
+          #puts filename          
+          #f=File.new(filename,"w")
+	  #f.write(stmt)
+	  #f.close  
+          #puts "sahitya"
           end
  
           end

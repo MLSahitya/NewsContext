@@ -8,7 +8,7 @@ class FeedentriesController < ApplicationController
   def storeFeeds
  	@sources= Source.all
         @sources.each do |source| 
-         puts source.url
+        # puts source.url
          Feedentry.update_from_feed(source.url,source.name)
         end  
         #puts "storage of Main Article for stored feeds going on ........"
@@ -23,11 +23,11 @@ class FeedentriesController < ApplicationController
   # GET /feedentries
   # GET /feedentries.json
   def index
-   #if @@flagf == 0
-   #    @@flagf = 1
-   #    storeFeeds
-   #end
-    storeFeeds
+   if @@flagf == 0
+       @@flagf = 1
+       storeFeeds
+   end
+   # storeFeeds
      @feedentries = Feedentry.all
 
     respond_to do |format|

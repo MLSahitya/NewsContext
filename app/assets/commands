@@ -1,0 +1,39 @@
+running the server
+ :  rails server
+
+listing all the routes 
+ :  rake routes
+
+creating new controller 
+ : rails generate controller mycontroller functions_list.....
+
+create new model (here the controller and views for the model are also generated)
+ : rails generate scaffold model_name att1_name:att_type att2_name:att_type .......
+
+create only new model
+ : rails generate model model_name att1_name:att_type att2_name:att_type .......
+
+destroy the previous generate command run
+ : rails destroy model name
+ex rails destroy model sample
+   rails destroy controller cluster
+
+references 
+viget.com/extend/rails-3-generators-scaffolding
+guides.rubyonrails.org/command_line.html
+ruby on rails tutorial :- ruby.railstutorial.org/ruby-on-rails-tutorial-book
+
+git commit commands
+
+
+mongodb commands
+
+show dbs
+use articles_development
+show collections
+db.feedentries.count()
+db.sources.drop()
+
+export collection as csv
+mongoexport --host localhost --db db_name -c collection_name --csv --out /PATH/file_name.csv -f field_names...
+

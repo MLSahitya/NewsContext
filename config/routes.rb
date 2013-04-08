@@ -1,4 +1,16 @@
 Articles::Application.routes.draw do
+  get "cluster/new"
+
+  get "cluster/update"
+
+  get "cluster/edit"
+
+  get "cluster/distroy"
+
+  get "cluster/index"
+
+  get "cluster/show"
+
   resources :feedentries
 
 
