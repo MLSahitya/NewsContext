@@ -1,0 +1,43 @@
+<html>
+<body>
+    <div id="page">
+
+      <div id="content">
+        <div id="header">
+	<h1>Here you can store the data required for the system</h1>
+	<p>The sources contain the links from which the news articles can be obtained.</p>
+	<p>The feeds are used to store the meta data, articles.</p>
+
+        </div>
+
+        <div id="rsssources"> 
+	 	<li><%= link_to "Store Rss feed Sources", srcstore_path %></li>
+        </div>
+	
+        <div > 
+	 	<li><%= link_to "Display Rss feed Sources", sources_path %></li>
+        </div>
+
+ 
+	<div > 
+	 	<li><%= link_to "Destroy Rss feed Sources", srcclear_path %></li>
+        </div>
+
+        <div id="articles">
+	        <li><%= link_to "Store Articles and their Meta Data", artstore_path %></li>
+        </div>
+
+ 	<div>
+	        <li><%= link_to "Display Articles and their Meta Data", feedentries_path %></li>
+        </div>
+              
+	<div>
+	        <li><%= link_to "Destroy Articles and their Meta Data", artclear_path %></li>
+        </div>
+      
+      </div>
+
+      <div id="footer">&nbsp;</div>
+    </div>
+  </body>
+</html>

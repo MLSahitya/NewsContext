@@ -6,6 +6,11 @@
 </p>
 
 <p>
+  <b>Title:</b>
+  <%= @feedentry.title %>
+</p>
+
+<p>
   <b>Summary:</b>
   <%= @feedentry.summary %>
 </p>
@@ -39,7 +44,3 @@
   <b>Keywords:</b>
   <%= @feedentry.keywords %>
 </p>
-
-
-<%= link_to 'Edit', edit_feedentry_path(@feedentry) %> |
-<%= link_to 'Back', feedentries_path %>

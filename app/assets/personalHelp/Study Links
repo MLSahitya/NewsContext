@@ -1,0 +1,20 @@
+mongo connection
+source /home/newsincontext/.rvm/scripts/rvm
+http://www.packtpub.com/article/ruby-mongodb-web-developement
+http://robert-reiz.com/2012/03/05/rails-mongodb-tutorial/
+
+feedzirra install
+http://ruby.zigzo.com/2009/02/15/feedzirra-installation-errors/
+http://stackoverflow.com/questions/4092706/feedzirra-with-multiple-feeds
+http://stackoverflow.com/questions/12195139/feedzirra-not-installed-properly
+http://railscasts.com/episodes/168-feed-parsing
+http://asciicasts.com/episodes/168-feed-parsing
+
+resolving mondo server connection fail error
+http://stackoverflow.com/questions/4502531/creating-a-database-in-mongo-cant-connect-get-connect-failed
+
+others
+http://blog.rietta.com/2012/01/integrate-blog-content-with-your-rails.html
+http://mongoid.org/en/mongoid/docs/querying.html
+http://stackoverflow.com/questions/9852470/date-in-mongoid-queries
+

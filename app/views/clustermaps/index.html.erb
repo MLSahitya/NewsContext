@@ -1,0 +1,25 @@
+<h1>Listing clustermaps</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Clusid</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @clustermaps.each do |clustermap| %>
+  <tr>
+    <td><%= clustermap.name %></td>
+    <td><%= clustermap.clusid %></td>
+    <td><%= link_to 'Show', clustermap %></td>
+    <td><%= link_to 'Edit', edit_clustermap_path(clustermap) %></td>
+    <td><%= link_to 'Destroy', clustermap, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Clustermap', new_clustermap_path %>

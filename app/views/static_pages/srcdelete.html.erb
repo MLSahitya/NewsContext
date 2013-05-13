@@ -1,0 +1,13 @@
+
+Which category of sources do you want to delete.</br>
+If you want to clear all the data stored enter " all " in the textbox.</br>
+If TopStories enter that in the textbox. The name is case sensitive.</br>
+If you want to delete individual sources then you do it on the page where all the sources are listed.</br>
+</br>
+</br>
+</br>
+<%= form_tag({:controller=>"dataclear", :action=>"srcclear"}, method: :get) do %>
+   <%= search_field_tag :topic %>
+   <%= submit_tag "Delete", name: nil %>
+<% end %>
+

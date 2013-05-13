@@ -1,21 +1,25 @@
 Articles::Application.routes.draw do
-  get "cluster/new"
 
-  get "cluster/update"
-
-  get "cluster/edit"
-
-  get "cluster/distroy"
-
-  get "cluster/index"
-
-  get "cluster/show"
+root to: 'static_pages#home'
+  match '/admin',    to: 'static_pages#admin'
+  match '/user',    to: 'static_pages#user'
+  
+  match '/srcstore',    to: 'datastore#srcstore'
+  match '/artstore',    to: 'datastore#artstore'
+  
+  match '/srcclear',    to: 'static_pages#srcdelete'
+  match '/srcdelete',    to: 'dataclear#srcclear'
+  match '/artclear',    to: 'static_pages#artdelete'
+  match '/artdelete',    to: 'dataclear#artclear'
+  match '/clusterhome',    to: 'cluster#home'
+  match '/clusterdisplay',    to: 'cluster#display'
+  match '/clusterstore',    to: 'cluster#store'
+  
+  get "dataclear/clusclear"
+  
+  resources :clustermaps
 
   resources :feedentries
-
-
-  resources :feeds
-
 
   resources :sources
 

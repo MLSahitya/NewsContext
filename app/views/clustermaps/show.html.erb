@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @clustermap.name %>
+</p>
+
+<p>
+  <b>Clusid:</b>
+  <%= @clustermap.clusid %>
+</p>
+
+
+<%= link_to 'Edit', edit_clustermap_path(@clustermap) %> |
+<%= link_to 'Back', clustermaps_path %>

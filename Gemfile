@@ -1,10 +1,10 @@
 source 'https://rubygems.org'
-
+#ruby '1.9.3', :engine => 'jruby', :engine_version => '1.7.1'
 gem 'rails', '3.2.11'
+gem 'bootstrap-sass', '2.1'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
-
 gem 'sqlite3'
 gem 'mongoid'
 #gem 'simple-rss' 

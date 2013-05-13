@@ -1,0 +1,8 @@
+<h1>Displaying the clusters</h1>
+
+
+  <% @clusters.each do |c| %>
+     <a href="<%= url_for  :action => :display,:id =>c[0] %>"> 	<%= c[0] %> <%= c[1] %></a></br>
+  <% end %>
+
+

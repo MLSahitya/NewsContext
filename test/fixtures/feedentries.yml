@@ -2,20 +2,22 @@
 
 one:
   name: MyString
+  title: MyString
   summary: MyString
   url: MyString
   pubon: MyString
   guid: MyString
   type: 
-  article: MyText
+  article: MyString
   keywords: MyString
 
 two:
   name: MyString
+  title: MyString
   summary: MyString
   url: MyString
   pubon: MyString
   guid: MyString
   type: 
-  article: MyText
+  article: MyString
   keywords: MyString

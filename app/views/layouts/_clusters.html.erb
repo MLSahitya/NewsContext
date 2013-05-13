@@ -1,0 +1,10 @@
+<clusters class="clusters">
+  <small>
+    Clusters
+  </small>
+  <nav>
+     <% @clusters.each do |c| %>
+  	<%= button_to c[1] ,  %> <br/>
+     <% end %>
+  </nav>
+</clusters>

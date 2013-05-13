@@ -1,21 +1,9 @@
 class SourcesController < ApplicationController
-  @@flags = 0 #using to run sourceStore() only once for each application run rather than each time index is called
-              # !!! move this call to a common call for all storage to take place when the application starts running
-  def sourceStore()
-       file = "/home/newscontext/rails_projects/articles/app/assets/"
-       group="TopStories"
-       Source.store_feeds(file+group,group)  
-  end  
-
+  
   
   # GET /sources
   # GET /sources.json
   def index
-    if @@flags == 0
-      @@flags = 1 
-   # call to store all the rss feed urls into the database 
-      sourceStore() 
-    end
     @sources = Source.all
 
     respond_to do |format|

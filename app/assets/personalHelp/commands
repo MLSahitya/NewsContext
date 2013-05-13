@@ -1,0 +1,70 @@
+running the server
+ :  rails server
+
+listing all the routes 
+ :  rake routes
+
+creating new controller 
+ : rails generate controller mycontroller functions_list.....
+
+create new model (here the controller and views for the model are also generated)
+ : rails generate scaffold model_name att1_name:att_type att2_name:att_type .......
+
+create only new model
+ : rails generate model model_name att1_name:att_type att2_name:att_type .......
+
+destroy the previous generate command run
+ : rails destroy model name
+ex rails destroy model sample
+   rails destroy controller cluster
+
+references: 
+viget.com/extend/rails-3-generators-scaffolding
+guides.rubyonrails.org/command_line.html
+ruby on rails tutorial :- ruby.railstutorial.org/ruby-on-rails-tutorial-book
+
+git commit commands:
+git add .
+git commit -a -m "msg"
+git push
+
+mongodb commands:
+
+show dbs
+use articles_development
+show collections
+db.feedentries.count()
+db.sources.drop()
+
+export collection as csv
+mongoexport --host localhost --db db_name -c collection_name --csv --out /PATH/file_name.csv -f field_names...
+
+import and export to save previous data
+newscontext@newscontext-VirtualBox:~$ mongoexport --host localhost --db articles_development -c feedentries --out /home/newscontext/rails_projects/articles/app/assets/fe -f _id,name,title,summary,url,pubon,guid,type,article,keywords
+
+connected to: localhost
+exported 4811 records
+
+newscontext@newscontext-VirtualBox:~$ mongoimport --host localhost --db parse_development -c feedentries -f _id,name,title,summary,url,pubon,guid,type,article,keywords --file /home/newscontext/rails_projects/articles/app/assets/fe
+
+connected to: localhost
+imported 4811 objects
+
+
+search for a pattern in mongodb
+
+db.feedentries.find({"type":"Topstories"})
+db.feedentries.find({"name":/file.*/})
+db.feedentries.find({"pubon":/2013-04-12.*/})
+db.feedentries.find({"pubon":{$not: /2013-04-21.*/}})
+
+feedentries is the collection name
+type is the attribute name
+
+
+
+Mongoid search commands
+
+to find all documents matching a pattern 
+@feeds=Feedentry.where(type: "TopStories")
+@feeds=Feedentry.where(pubon: /2013-04-12.*/)
