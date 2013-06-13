@@ -23,21 +23,19 @@ class DatastoreController < ApplicationController
 
   def artstore
   # store all the feeds into the database from the sources listed.
-   #prev=Feedentry.count
-   #feedcount = Feedentry.count
-   #@sources= Source.all
-   #@sources.each do |source| 
+   prev=Feedentry.count
+   feedcount = Feedentry.count
+   @sources= Source.all
+   @sources.each do |source| 
    #puts source.url
-   #feedcount = Feedentry.update_from_feed(source.url,source.name,feedcount)
-   #end  
+   feedcount = Feedentry.update_from_feed(source.url,source.name,feedcount)
+   end
+   @feeds=Feedentry.where(pubon: nil)
+   @feeds.destroy  
    #new =Feedentry.count
    #@artcount=new-prev
-   #puts "Extracting Keywords for the articles stored ..........."
-   #Feedentry.keywordsExtract
-   #puts "Generating the files with keywords for clustering......"
-   #Feedentry.createFiles
-   puts "storage of Main Article for stored feeds going on ........"
-   Feedentry.storeArticle
+   #puts "storage of Main Article for stored feeds going on ........"
+   #Feedentry.storeArticle
         
    # exporting the data to csv 
    # result = %x[mongoexport --host localhost --db articles_development -c feedentries --csv --out /home/newscontext/     rails_projects/articles/app/assets/fe.csv -f _id,name,title,summary,url,pubon,guid,type,article,keywords]

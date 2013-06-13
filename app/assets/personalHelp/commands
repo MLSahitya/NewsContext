@@ -68,3 +68,10 @@ Mongoid search commands
 to find all documents matching a pattern 
 @feeds=Feedentry.where(type: "TopStories")
 @feeds=Feedentry.where(pubon: /2013-04-12.*/)
+
+git commands
+git add .
+git commit -a -m "name of commit"
+git push origin master
+Id MLSahitya
+pw mls1989

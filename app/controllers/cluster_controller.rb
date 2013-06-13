@@ -1,10 +1,10 @@
 require 'lingua/stemmer'
 class ClusterController < ApplicationController
 def fulltext
-  @feeds= Feedentry.all #where(pubon: /2013-04-12.*/)
+  @feeds= Feedentry.where(pubon: /2013-02.*/)
         c = 0
         @feeds.each do |feed| 
-          filename = "/home/newscontext/rails_projects/articles/bfiles/" + feed.name
+          filename = "/home/newscontext/rails_projects/articles/docts/" + feed.name
           f=File.new(filename,"w")
   	  summ=" "+feed.title.to_s()+" "+feed.summary.to_s()
 	  summ = summ.downcase
@@ -24,9 +24,9 @@ def fulltext
         end 
 
 end  
-def stemming
+def stemming#(type,words,date)
         #first create an empty folder files
-        @feeds= Feedentry.where(pubon: /2013-05-09.*/)
+        @feeds= Feedentry.where(pubon: /2013-02.*/)#(pubon: /#{date}/,summary: /#{words}/,type: /#{type}/)
         c = 0
         @feeds.each do |feed| 
   	  summ=" "+feed.title.to_s()+" "+feed.summary.to_s()
@@ -41,15 +41,15 @@ def stemming
           end
 	  words = summ.scan(/\w+/)
           #considering only articles whose title and summary have more than 20 words
-          if (words.length > 20)
-          filename = "/home/newscontext/rails_projects/articles/files/" + feed.name
+          #if (words.length > 20)
+          filename = "/home/newscontext/rails_projects/articles/bfiles/" + feed.name
           f=File.new(filename,"w")
  	 #puts summ
           f.write(summ)
 	  f.close
           c = c + 1
-          puts "No of files created :" + c.to_s()
-          end
+          #puts "No of files created :" + c.to_s()
+          #end
         end 
 
 end
@@ -101,10 +101,10 @@ stopwords = ["a","able","nbsp","about","above","abst","accordance","according","
 "without","won't","words","world","would","wouldn't","www","x","y","yes","yet","you","youd","you'll","your","youre","yours",
 "yourself","yourselves","you've","z","zero"]
 
-  @feeds= Feedentry.all #where(pubon: /2013-04-12.*/)
+  @feeds= Feedentry.where(pubon: /2013-02.*/)
         c = 0
         @feeds.each do |feed| 
-          filename = "/home/newscontext/rails_projects/articles/files/" + feed.name
+          filename = "/home/newscontext/rails_projects/articles/sfiles/" + feed.name
           f=File.new(filename,"w")
   	  summ=" "+feed.title.to_s()+" "+feed.summary.to_s()
 	  summ = summ.downcase
@@ -121,13 +121,14 @@ stopwords = ["a","able","nbsp","about","above","abst","accordance","according","
           f.write(summ)
 	  f.close
         c = c + 1
-        puts "No of files created :" + c.to_s() 
+       # puts "No of files created :" + c.to_s() 
         end 
 
 end
 
   def clustervalue
    	l=20
+        ml=20
 	n=5
 	int=40
 	flag=0
@@ -152,7 +153,8 @@ end
 	c=0
 	while c<=n
 	s=l+(c*int)
-	name="/home/newscontext/mahout/examples/bin/clus/"+s.to_s()
+	if s >= ml
+        name="/home/newscontext/mahout/examples/bin/clus/"+s.to_s()
 	File.open(name) do |fl|
 	  while line = fl.gets
 	    metrics[c][0]=s.to_i()  
@@ -171,13 +173,13 @@ end
 	    end
 	 end
 	end
-	c=c+1
 	end
-	#puts metrics
+	c=c+1	
+	end
 	linter=metrics[0][2]
 	c=1
 	while c<=n
-	 if metrics[c][2]<linter
+	 if metrics[c][2]<linter && metrics[c][1] > 0.0
 	  linter=metrics[c][2]
 	 end
 	c=c+1
@@ -185,7 +187,6 @@ end
 	msep=-1
 	c=0
 	while c<=n
-	 #puts msep
 	 if metrics[c][2]==linter && msep==-1 
 	   msep=metrics[c][1]
 	   value=metrics[c][0]
@@ -197,10 +198,14 @@ end
 	l=value-int
 	int=int/2
 	c=0
+        i=0
         prev=prev+new
         while c<=n
 	s=l+(c*int)
-	nex[c]=s
+	if s >= ml 
+ 	   nex[i]=s
+        i=i+1
+        end
 	c=c+1
 	end
   	c=0
@@ -209,16 +214,18 @@ end
   end
 
   def home
-   # call the clustering algorithm here
-   # take the date or search word here and create the files in the TextFiles folder
-   # Run the kmeans clustering algorithm
-   #%x[rm -r /home/newscontext/rails_projects/articles/files]
-   #%x[mkdir /home/newscontext/rails_projects/articles/files]
    #stemming
-   #forming sequence files from the files 
-   #%x[ /home/newscontext/mahout/bin/mahout seqdirectory -i /home/newscontext/rails_projects/articles/files/ -o /home/newscontext/mahout/examples/bin/clus/files-seqdir1 -ow]
-   #making sparse vectors
-   #%x[ /home/newscontext/mahout/bin/mahout seq2sparse -i /home/newscontext/mahout/examples/bin/clus/files-seqdir1/ -o /home/newscontext/mahout/examples/bin/clus/files-sparse1 -wt TFIDF --maxDFPercent 85 --namedVector -ow ]
+   #fulltext
+   #stopstem
+   ## calling the clustering algorithm here
+   ## Running kmeans clustering algorithm
+   %x[rm -r /home/newscontext/rails_projects/articles/files]
+   %x[mkdir /home/newscontext/rails_projects/articles/files]
+   stemming(params[:type],params[:words],params[:date])
+   ##forming sequence files from the files 
+   %x[ /home/newscontext/mahout/bin/mahout seqdirectory -i /home/newscontext/rails_projects/articles/files -o /home/newscontext/mahout/examples/bin/clus/files-seqdir1 -ow]
+   ##making sparse vectors
+   %x[ /home/newscontext/mahout/bin/mahout seq2sparse -i /home/newscontext/mahout/examples/bin/clus/files-seqdir1/ -o /home/newscontext/mahout/examples/bin/clus/files-sparse1 -wt TFIDF --maxDFPercent 85 --namedVector -ow ]
    value=clustervalue
    #puts value
    file=File.open("/home/newscontext/mahout/examples/bin/f","w+")
@@ -226,6 +233,7 @@ end
    file.write(name)
    file.close
    %x[sh /home/newscontext/mahout/examples/bin/f]
+   %x[rm -r /home/newscontext/mahout/examples/bin/clus/]
   end
 
   def store
@@ -239,7 +247,7 @@ end
    clusters=Array.new(clusno){Array.new(2)}
    stmt=""
    c =0
-   File.open("/home/newscontext/rails_projects/articles/app/assets/clusterdump") do |f|
+   File.open("/home/newscontext/rails_projects/articles/app/assets/clusterdump65") do |f|
    while line = f.gets  
 
           if (line.include? " c=[")
@@ -275,8 +283,9 @@ end
       feeds[j]=c.name
        j=j+ 1
    end
-   
+   puts feeds.count
    @feedentries=Feedentry.where(name: feeds[0]) 
+   
    j=1
    while j<=i
       @feedentries=@feedentries +Feedentry.where(name: feeds[j]) 

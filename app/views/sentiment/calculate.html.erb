@@ -1,0 +1,20 @@
+<h1>Sentiment#calculate</h1>
+<p>Find me in app/views/sentiment/calculate.html.erb</p>
+File name: <%= @name %></br>
+pos stmsts: <%= @pos %></br>
+neg stmsts: <%= @neg %></br>
+total no of lines:<%= @numlines %></br>
+neu lines: <%= @numlines-(@pos+@neg) %> </br>
+total score of pos words: <%= @posw %></br>
+total score of neg words: <%= @negw %></br>
+total sentiment words found:<%= @words %></br>
+stmt pos score: <%= @poss %></br>
+stmt neg score: <%= @negs %></br>
+total score of stmts: <%= @result %></br>
+
+<% @metric.each do |c| %>
+ <%= c[0] %>  <%= c[1] %>,
+<% end %>
+<% @stmts.each do |c| %>
+ <%= c[0] %>  <%= c[1] %> </br>
+<% end %>

@@ -13,4 +13,7 @@ class StaticPagesController < ApplicationController
   
   def artdelete
   end
+   
+  def clusterform
+  end
 end

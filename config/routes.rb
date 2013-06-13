@@ -1,9 +1,14 @@
 Articles::Application.routes.draw do
 
+  get "sentiment/calculate"
+
+  get "sentiment/display"
+
 root to: 'static_pages#home'
   match '/admin',    to: 'static_pages#admin'
   match '/user',    to: 'static_pages#user'
-  
+  match '/clusterform',    to: 'static_pages#clusterform'
+
   match '/srcstore',    to: 'datastore#srcstore'
   match '/artstore',    to: 'datastore#artstore'
   

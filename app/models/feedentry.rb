@@ -21,27 +21,27 @@ def self.update_from_feed(feed_url,topic,feedcount)
        feed = Feedzirra::Feed.fetch_and_parse(feed_url) #parsing the rss feed
        begin    
          feed.entries.each do |entry|
-         # unless Feedentry.where(guid: entry.id, name: entry.title).exists? 
+          unless Feedentry.where(guid: entry.id, name: entry.title).exists? 
           #reading the complete article
           art="" 
-	  #begin
-          #source = open(entry.id).read
-          #art=""
-          #art = Readability::Document.new(source).content
-          #art = art.gsub /\<.*?\>/,''
-          #rescue
-	  #source = open(entry.url).read
-          #art=""
-          #art = Readability::Document.new(source).content
-          #art = art.gsub /\<.*?\>/,''
-          #end
+	  begin
+          source = open(entry.id).read
+          art=""
+          art = Readability::Document.new(source).content
+          art = art.gsub /\<.*?\>/,''
+          rescue
+	  source = open(entry.url).read
+          art=""
+          art = Readability::Document.new(source).content
+          art = art.gsub /\<.*?\>/,''
+          end
           #----------------------------------------modified from here------------------------
           summ=entry.summary
           summ=summ.gsub /\<.*?\>/,''
 	  summ=summ.gsub /nbsp/,''
           stmt =''
           
-          name = "file" + feedcount.to_s()
+          name = feedcount.to_s()
 	  create!(
           :name         => name,
 	  :title  => entry.title,        
@@ -56,7 +56,7 @@ def self.update_from_feed(feed_url,topic,feedcount)
  
          
  	feedcount = feedcount + 1 
-          #end
+          end
           
           end
  

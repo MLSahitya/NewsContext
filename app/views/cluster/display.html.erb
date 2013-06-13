@@ -1,12 +1,11 @@
 <h1>Listing the articles of the cluster</h1>
-
-
-<table>
  <% @feedentries.each do |feedentry| %>
    <tr>
-    <!-- <td> <%= feedentry.summary%> </td> -->
-    <td><%= feedentry.title %></td>
-  <td><%= link_to 'Show', feedentry %></td></tr>
+    <td>TITLE: <%= feedentry.title %></td></br>
+   <td>SUMMARY:  <%= feedentry.summary%> </td></br>
+  <td><%= link_to '	Show	', feedentry %></td></br></tr>
 <% end %> 
-</table>
-<%#= @feed %>
+<div > 
+	 	<li><%= link_to "Display clusters", clusterstore_path %></li>
+</div>
+

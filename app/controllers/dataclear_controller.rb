@@ -12,17 +12,11 @@ class DataclearController < ApplicationController
   end
 
   def artclear
-    #if (params[:query]=="all")
-    #@articles=Feedentry.all
-    #else
-    query="word"
-    @articles= Feedentry.where(summary: /#{query}/)
-    #end 
-    @artcount=0
-    prev=Feedentry.count
-    puts @articles.count
-    new=Feedentry.count
-    @artcount=@articles.count#prev-new
+       @articles= Feedentry.where(pubon: /#{params[:date]}/,type: /#{params[:type]}/,article: /#{params[:article]}/)
+     prev=Feedentry.count
+     @articles.destroy
+     new=Feedentry.count
+     @artcount=prev-new
   end
 
   def clusclear

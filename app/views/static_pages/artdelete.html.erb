@@ -1,16 +1,17 @@
 
 Which collection of articles do you want to delete.</br>
-If you want to clear all the data stored enter " all " in the textbox.</br>
-If you want to delete specific artciles enter the query in the textbox.The query is case sensitive.</br>
-If you want to delete individual articles then you can do it on the page where all the articles are listed.</br>
-</br>
-The format to delete a specific date articles is pubon: /^2012*/</br>
-type: "topic", if want to combine multiple attributes type: "topic",pubon: /^2012*/
+If you want to select all enter ".*" in the textbox.</br>
+If you want to delete specifically, enter the pattern .</br>
+The pattern to delete articles of year 2012 - 2012.*</br>
+The pattern to delete articles of a specific date 2013-04-09</br>
+Pattern to delete article with word "bomb" in the article text is : .*bomb.*
 </br>
 </br>
 </br>
 <%= form_tag({:controller=>"dataclear", :action=>"artclear"}, method: :get) do %>
-   <%= search_field_tag :query %>
+   Category: <%= search_field_tag :type %></br>
+   Article Date: <%= search_field_tag :date %></br>
+   Search Pattern in article: <%= search_field_tag :article %></br>
    <%= submit_tag "Delete", name: nil %>
 <% end %>
 

@@ -1,0 +1,17 @@
+
+Which articles do you want to cluster.</br>
+If you want to select all enter ".*" in the textbox.</br>
+If you want to select specifically, enter the pattern .</br>
+The pattern for articles of year 2012 is:  2012.*</br>
+The pattern for articles of a specific date is:  2013-04-09</br>
+Pattern for articles with word "bomb" in the article text is : .*bomb.*
+</br>
+</br>
+</br>
+<%= form_tag({:controller=>"cluster", :action=>"home"}, method: :get) do %>
+   Category: <%= search_field_tag :type %></br>
+   Article Date: <%= search_field_tag :date %></br>
+   Search Pattern in Summary: <%= search_field_tag :words %></br>
+   <%= submit_tag "Cluster", name: nil %>
+<% end %>
+
