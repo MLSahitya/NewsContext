@@ -16,44 +16,6 @@
 
 /home/newscontext/mahout/bin/mahout seqdumper -s /home/newscontext/mahout/examples/bin/clus/kmeans1/clusteredPoints/part-m-* > /home/newscontext/rails_projects/articles/app/assets/cluster-points.txt
 
-#moving the outputs to rails application
-#cp /home/newscontext/mahout/examples/bin/clus/cluster-points.txt /home/newscontext/rails_projects/articles/app/assets/cluster-points.txt
-#cp /home/newscontext/mahout/examples/bin/clusters/clusterdump$1 /home/newscontext/rails_projects/articles/app/assets/clusterdump
-#grep -n '{n=' /home/newscontext/mahout/examples/bin/clusters/clusterdump > /home/newscontext/mahout/examples/bin/clusters/result.txt
-
-#mkdir /home/newscontext/mahout/examples/bin/cluster/output
-#/usr/bin/env ruby <<-EORUBY
-#puts "running ruby"
-#File.open("/home/newscontext/mahout/examples/bin/cluster/clusterdump") do |f|
-#while line = f.gets  
-     
- #    if (line.include? "c=[")
-  #       i=line.index(":")
- #        j=line.index("{")
- #        clustername = line[i+1,j-1]
- #        #puts clustername
- #        i=line.index("=")
- #        j=line.index(" ")
- #        clustersize = line[i+1,j-i-1]
- #        #puts clustersize
- #        %x[mkdir /home/newscontext/mahout/examples/bin/cluster/output/"#{clustername}" ]
- #        path ="/home/newscontext/mahout/examples/bin/cluster/output/" + clustername +"/files"
-#         file=File.new(path,"a+")
-#         #file.write(clustersize + "\n")
-#	 file.close 
-#     elsif (line.include? "distance=")
-#         i=line.index("/")
-#         filename=line[i+1,30]
-#         j=filename.index(" ")
-#         filename=filename[0,j]
-#         file=File.new(path,"a+")
-#         file.write("puts \""+filename+"\"\n puts %x[cat /home/newscontext/rails_projects/articles/bfiles/"+filename + "]\n")
-#	 file.close
-#     end
-
-#  end  
-#end  
-#EORUBY
 
 #for x in `ls /home/newscontext/mahout/examples/bin/cluster/output $1`; do
 #echo

@@ -1,6 +1,6 @@
 In this application we read the rss souce links from the asserts folder,i.e. function call  sourceStore()
 
-After all the source links are stored we collect the feeds from each source along with the comlete article.
+After all the source links are stored we collect the feeds from each source along with the complete article.
 Once all the details are collected 
 title,
 summary,
@@ -8,5 +8,13 @@ url,
 published Date,
 full article from the url
 
-then, the title,summary are combined to form a text, which is processed to obtain the Keywords of the article.
- 
+The user is presented with a form where the user can specify which articles to be clustered.
+The title and summary are considered as text for clustering.
+This text is run through porter stemmer to generate the final files used to create vectors in mahout.
+
+Once the user has the cluster he can find the bias within these clusters. At present these are not combined to the system.
+They are available as script files. The sentiment analysis based on Word bags is at present done for each file.
+
+The try.sh, automate.sh in assets folder are the mahout script files used for performing the clustering.
+The similarity.sh is the mahout script file used to find the similarity between articles present within a cluster.
+  
