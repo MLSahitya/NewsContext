@@ -3,7 +3,7 @@ class FeedentriesController < ApplicationController
   # GET /feedentries
   # GET /feedentries.json
   def index
-    @feedentries = Feedentry.where(pubon: /2013-02.*/)#all
+    @feedentries = Feedentry.where(title: /.*Yahoo.*Tumblr.*/)#all
 
     respond_to do |format|
       format.html # index.html.erb

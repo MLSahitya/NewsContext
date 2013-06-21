@@ -24,9 +24,9 @@ def fulltext
         end 
 
 end  
-def stemming#(type,words,date)
+def stemming(type,words,date)
         #first create an empty folder files
-        @feeds= Feedentry.where(pubon: /2013-02.*/)#(pubon: /#{date}/,summary: /#{words}/,type: /#{type}/)
+        @feeds= Feedentry.where(pubon: /#{date}/,summary: /#{words}/,type: /#{type}/)
         c = 0
         @feeds.each do |feed| 
   	  summ=" "+feed.title.to_s()+" "+feed.summary.to_s()
@@ -41,15 +41,14 @@ def stemming#(type,words,date)
           end
 	  words = summ.scan(/\w+/)
           #considering only articles whose title and summary have more than 20 words
-          #if (words.length > 20)
+          if (words.length > 20)
           filename = "/home/newscontext/rails_projects/articles/bfiles/" + feed.name
           f=File.new(filename,"w")
- 	 #puts summ
-          f.write(summ)
+ 	  f.write(summ)
 	  f.close
           c = c + 1
           #puts "No of files created :" + c.to_s()
-          #end
+          end
         end 
 
 end
@@ -214,6 +213,7 @@ end
   end
 
   def home
+   #used for during evaluation process
    #stemming
    #fulltext
    #stopstem

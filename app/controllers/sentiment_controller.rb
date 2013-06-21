@@ -18,7 +18,6 @@ class SentimentController < ApplicationController
      end
      end
      #do evaluation for each sentence
-     puts "sahitya"
      art=""
      k=0
      filescore=0
@@ -112,12 +111,14 @@ class SentimentController < ApplicationController
   end
 
   def display
-	 @feeds= Feedentry.where(title: /.*Yahoo.*Tumblr.*/)
+     
+	@feeds= Feedentry.where(title: /.*Yahoo.*Tumblr.*/)
         c = 0
         @feeds.each do |feed| 
           filename = "/home/newscontext/rails_projects/articles/classification/paras/" + feed.name
           f=File.new(filename,"w")
   	  art=feed.article
+          #cleaning the text files 
           #art=art.gsub /\n[ ]*\n/,"\n"
 	  #art=art.gsub /\n[ ]*\n/,"\n"
 	  # art=art.gsub /\. /,".\n"
@@ -125,7 +126,7 @@ class SentimentController < ApplicationController
 	  #art=art.gsub /n't/,"not"
      	  #art=art.gsub /'/," "
      	  #art=art.gsub /’/," "
-     #  art=art.gsub /\? /,"?\n"
+          #  art=art.gsub /\? /,"?\n"
 	#  sentences=art.split(/\n/)
         #  sc=0
         #  while (sc<sentences.length)

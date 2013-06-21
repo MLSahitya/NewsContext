@@ -70,3 +70,7 @@ git commit -a -m "name of commit"
 git push origin master
 Id MLSahitya
 pw mls1989
+
+cloning the application
+
+git clone git

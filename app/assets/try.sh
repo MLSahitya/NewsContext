@@ -13,12 +13,5 @@
 #obtaining the clustering output in understandable format
 /home/newscontext/mahout/bin/mahout clusterdump -s /home/newscontext/mahout/examples/bin/clus/kmeans1/clusters-*-final -o /home/newscontext/rails_projects/articles/app/assets/clusterdump -d /home/newscontext/mahout/examples/bin/clus/files-sparse1/dictionary.file-0 -dt sequencefile -n 15 --evaluate -dm org.apache.mahout.common.distance.CosineDistanceMeasure -b 50 --pointsDir /home/newscontext/mahout/examples/bin/clus/kmeans1/clusteredPoints
 
-
+#getting the mapping of the files and their clusters
 /home/newscontext/mahout/bin/mahout seqdumper -s /home/newscontext/mahout/examples/bin/clus/kmeans1/clusteredPoints/part-m-* > /home/newscontext/rails_projects/articles/app/assets/cluster-points.txt
-
-
-#for x in `ls /home/newscontext/mahout/examples/bin/cluster/output $1`; do
-#echo
-#ruby /home/newscontext/mahout/examples/bin/cluster/output/$x/files >  /home/newscontext/mahout/examples/bin/cluster/output/$x/output.txt
-#done
-

@@ -1,0 +1,6 @@
+This folder contains the documents usen for bias identification. 
+ratedwords, wordslist are the WordBags used.
+Wordslist is the set of global sentiment words.
+ratedwords is the set of theme specific sentiment words.
+The folders contain the files with only stemming, full text, stopwords removed, stemming-stopwordremoved used to cluster the articles to identify the bias in the theme.
+

@@ -2,9 +2,11 @@ source 'https://rubygems.org'
 #ruby '1.9.3', :engine => 'jruby', :engine_version => '1.7.3'
 gem 'rails', '3.2.11'
 gem 'bootstrap-sass', '2.1'
-#gem 'puma'
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
+
+group :production do
+  gem 'pg', '0.12.2'
+end
+
 gem 'sqlite3'
 gem 'mongoid'
 #gem 'simple-rss' 

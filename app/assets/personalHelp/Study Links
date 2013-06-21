@@ -18,3 +18,32 @@ http://blog.rietta.com/2012/01/integrate-blog-content-with-your-rails.html
 http://mongoid.org/en/mongoid/docs/querying.html
 http://stackoverflow.com/questions/9852470/date-in-mongoid-queries
 
+Online Sentiment Analysis
+www.sentigem.com
+
+Heroku
+add the following to gemfile
+
+group :production do
+  gem 'pg', '0.12.2'
+end
+
+bundle install --without production
+
+#getting the heroku installed
+wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
+reference:  https://toolbelt.heroku.com/
+http://askubuntu.com/questions/202451/fetching-error-when-installing-heroku
+
+cmd: heroku login
+email: ml.sahitya@gmail.com
+password:newsincontext
+
+
+
+git clone git://github.com/heroku/ruby -sample.git
+cd ruby-sample
+heroku create
+git push heroku master
+heroku open
+
