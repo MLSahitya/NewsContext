@@ -4,7 +4,7 @@ require 'readability'
 require 'lingua/stemmer'
 
 class Feedentry
-
+PROJECT_PATH="/home/newscontext/rails_projects/articles"
 
   include Mongoid::Document
   field :name, type: String
@@ -17,12 +17,16 @@ class Feedentry
   field :article, type: String
   field :keywords, type: String
 
+# in this function we obtain the article with meta data and store into database
+# it takes rss url, topic name, no of feeds as parameters
+
 def self.update_from_feed(feed_url,topic,feedcount)
        feed = Feedzirra::Feed.fetch_and_parse(feed_url) #parsing the rss feed
        begin    
-         feed.entries.each do |entry|
+         feed.entries.each do |entry| # each rss url has multiple news stories run the loop for each story
           unless Feedentry.where(guid: entry.id, name: entry.title).exists? 
           #reading the complete article
+	  #some use url for article others use id so check both 
           art="" 
 	  begin
           source = open(entry.id).read
@@ -34,14 +38,14 @@ def self.update_from_feed(feed_url,topic,feedcount)
           art=""
           art = Readability::Document.new(source).content
           art = art.gsub /\<.*?\>/,''
-          end
+          end  # begin ends
           #----------------------------------------modified from here------------------------
           summ=entry.summary
           summ=summ.gsub /\<.*?\>/,''
 	  summ=summ.gsub /nbsp/,''
           stmt =''
           
-          name = feedcount.to_s()
+          name = feedcount.to_s() # count of number of entries in the database
 	  create!(
           :name         => name,
 	  :title  => entry.title,        
@@ -56,99 +60,17 @@ def self.update_from_feed(feed_url,topic,feedcount)
  
          
  	feedcount = feedcount + 1 
-          end
+          end # unless ends
           
-          end
+          end # url loop ends
  
       # In case of error while parsing the rss feeds, main article 	
       rescue
-  	f=File.open("/home/newscontext/rails_projects/articles/log/Log","a+")
+  	f=File.open("#{PROJECT_PATH}/log/Log","a+")
 	f.write(topic+":"+feed_url + "\n")
 	f.close  
-      end
+      end # outer begin
       return feedcount
-  end
-
-# This performs the task of creating files for each feed/article containing keywords.
-  def self.createFiles
-	@feeds= Feedentry.all
-        c = 0
-        @feeds.each do |feed| 
-          filename = "/home/newscontext/rails_projects/articles/TextFiles/" + feed.name
-          f=File.new(filename,"w")
-	  f.write(feed.keywords)
-	  f.close
-        c = c + 1
-        puts "No of files created :" + c.to_s()  
-        end
-  end
-
-  def self.storeArticle
-	@feeds= Feedentry.where(article: "")
-	c = 0      
-        @feeds.each do |feed| 
-         #reading the complete article 
-          if feed.article==""
-	  begin
-	  source = open(feed.url).read
-          art = Readability::Document.new(source).content
-          art = art.gsub /\<.*?\>/,''
-          
-          rescue
-
-          begin
-	  source = open(feed.guid).read
-          art = Readability::Document.new(source).content
-          art = art.gsub /\<.*?\>/,''      
-          rescue
-          art = ""
-          end
-          
-          end
-          Feedentry.find_by(name: feed.name).set(:article, art)        
-          c = c + 1 
-          puts "No of full articles stored :" + c.to_s()
-	  end
-          end
-     end   
-   
-    #obtain the keywords of each feed stored considering title and summary
-  def self.keywordsExtract
-       # stopwordArray
-	@feeds =Feedentry.all
-        c = 0
-        @feeds.each do |feed|
-          if feed.title == nil 
-          	feed.title = " "
-          end
-          if feed.summary == nil 
-		feed.summary = " "
-	  end
-          
-          stmt = feed.title + ' ' + feed.summary 
-          stmt = stmt.downcase
-	  words = stmt.scan(/\w+/)
-    	  # ----------stopwords removal from the obtained list of words from the title,summary, article
-          keywords = words - STOPWORDS
-	  ##puts "------------------------------------------------------------------"
-          
-  	  ## Steming of the words
-          words = keywords
-          keywords = []
-          stmt =''
-          words.each do |key|
-           stmt  = stmt + ' ' + Lingua.stemmer(key, :language=>"en")
-          end
-          keywords =stmt.scan(/\w+/)
-          ##-----------keywords = keywords.uniq
-	  stmt = ''
-          keywords.each do |key|
-           stmt  = stmt + ' ' + key     
-          end
-        Feedentry.find_by(name: feed.name).set(:keywords,stmt)
-        c = c + 1 
-        puts "No of feeds whose keywords are obtained :" + c.to_s()
-       end      
-   end
-  
-end
+  end # function ends
+ 
+end # class ending

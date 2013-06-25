@@ -1,12 +1,15 @@
 class Clustermap
+PROJECT_PATH="/home/newscontext/rails_projects/articles"
+
   include Mongoid::Document
   field :name, type: String
   field :clusid, type: String
 
+  # here we store the results of clustering into the database
   def self.store_clustermap()  
-    c =0
-   #This is for only one level of clustering, if multiple levels are used get the outer cluster id for the Input path in the file ie #Input Path: examples/bin/stemming/kmeans1/clusteredPoints/part-m-0
-   File.open("/home/newscontext/rails_projects/articles/app/assets/cluster-points65.txt") do |f|
+   	 c =0
+   # read the cluster results obtained from mahout clustering
+   File.open("#{PROJECT_PATH}/app/assets/cluster-points.txt") do |f| 
    while line = f.gets  
           if (line.include? "Value:")
              c = c+ 1
@@ -19,19 +22,18 @@ class Clustermap
           j=line.index("=")
           i=line.index("/")
           filename = line[i+1,j-i-2]
-          #store these values in the database
+   
+          #store these values into the database
 	  unless Clustermap.where(name: filename,clusid: clustername).exists?
           create!( 
             :name     => filename,  
             :clusid      => clustername  
           ) 
-          end
-         
-         end
+          end # unless loop
+          end # if loop
+   end # while loop
+   end  # file loop ending
 
-   end 
-   end  
-   puts c
-  end
+  end # store_clustermap function close
 
-end
+end # class ending

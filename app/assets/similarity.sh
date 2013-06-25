@@ -1,19 +1,22 @@
+MAHOUT_PATH="/home/newscontext/mahout" 
+PROJECT_PATH="/home/newscontext/rails_projects/articles"
+
 #generating sequence files from the text files
-/home/newscontext/mahout/bin/mahout seqdirectory -i /home/newscontext/rails_projects/articles/classification/sskey/ -o /home/newscontext/mahout/examples/bin/clus/files-seqdir1 -ow
+$MAHOUT_PATH/bin/mahout seqdirectory -i $PROJECT_PATH/app/assets/classification/sskey/ -o $PROJECT_PATH/clus/files-seqdir -ow
 
 #generating vectors for the files
-/home/newscontext/mahout/bin/mahout seq2sparse -i /home/newscontext/mahout/examples/bin/clus/files-seqdir1/ -o /home/newscontext/mahout/examples/bin/clus/files-sparse1 -wt TFIDF --maxDFPercent 85 --namedVector -ow 
+$MAHOUT_PATH/bin/mahout seq2sparse -i $PROJECT_PATH/clus/files-seqdir/ -o $PROJECT_PATH/clus/files-sparse -wt TFIDF --maxDFPercent 85 --namedVector -ow 
 
 #creating matrix representing vectors
-/home/newscontext/mahout/bin/mahout rowid -i /home/newscontext/mahout/examples/bin/clus/files-sparse1/tfidf-vectors/part-* -o /home/newscontext/mahout/examples/bin/clus/clusmatrix
+$MAHOUT_PATH/bin/mahout rowid -i $PROJECT_PATH/clus/files-sparse/tfidf-vectors/part-* -o $PROJECT_PATH/clus/clusmatrix
 
 #finding similarity between files represented in matrix
-/home/newscontext/mahout/bin/mahout rowsimilarity -i /home/newscontext/mahout/examples/bin/clus/clusmatrix/matrix -o /home/newscontext/mahout/examples/bin/clus/similarity -r 730 -s SIMILARITY_COSINE -m 2000 -ess --tempDir /home/newscontext/mahout/examples/bin/clus/tmp
+$MAHOUT_PATH/bin/mahout rowsimilarity -i $PROJECT_PATH/clus/clusmatrix/matrix -o $PROJECT_PATH/clus/similarity -r 730 -s SIMILARITY_COSINE -m 2000 -ess --tempDir $PROJECT_PATH/clus/tmp
 
 #getting the similarity matrix of the files
-/home/newscontext/mahout/bin/mahout seqdumper -s /home/newscontext/mahout/examples/bin/clus/similarity/part-* >/home/newscontext/mahout/examples/bin/clus/similaritydocs.txt
+$MAHOUT_PATH/bin/mahout seqdumper -s $PROJECT_PATH/clus/similarity/part-* >$PROJECT_PATH/clus/similaritydocs.txt
 
 #mapping between the files and their representation in matrix
-/home/newscontext/mahout/bin/mahout seqdumper -s /home/newscontext/mahout/examples/bin/clus/clusmatrix/docIndex >/home/newscontext/mahout/examples/bin/clus/docs.txt
+$MAHOUT_PATH/bin/mahout seqdumper -s $PROJECT_PATH/clus/clusmatrix/docIndex >$PROJECT_PATH/clus/docs.txt
 
 

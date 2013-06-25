@@ -1,12 +1,17 @@
 class SentimentController < ApplicationController
+PROJECT_PATH="/home/newscontext/rails_projects/articles"
+
+
   def calculate
      #creating the hash for positive and negative words
      sentimenthash=Hash.new
      metrics=Array.new(145){Array.new(2)}
      result=Array.new(80){Array.new(2)}
+   
+     # store word ratings into sentimenthash for later use
      #wordslist for general positive and negative woeds
      #ratedwords for sub specific +ve -ve words
-     File.open("/home/newscontext/rails_projects/articles/classification/ratedwords") do |f|
+     File.open("#{PROJECT_PATH}/assets/classification/ratedwords") do |f|
      while line=f.gets
       link= line.tr("\n",'')
       line=link
@@ -17,6 +22,7 @@ class SentimentController < ApplicationController
       sentimenthash[term]=sentiment
      end
      end
+
      #do evaluation for each sentence
      art=""
      k=0
@@ -30,19 +36,22 @@ class SentimentController < ApplicationController
      nl=0
      notflag=0
      type=""
+     # mention file whose sentiment needs to be analysed
      @name="9408"
-	File.open("/home/newscontext/rails_projects/articles/classification/files/"+@name) do |f|
+	File.open("#{PROJECT_PATH}/assets/classification/files/"+@name) do |f|
      while line=f.gets
         notflag=0
         art=line 
         words=art.scan(/\w+/)
+         # remove too short lines, they are mostly publication or author details
    	 if words.length >2
      	    nl=nl+1
    	    score=0
         notcount=0
+        
      	words.each do |key|
         if !key.match(/\d/)&&key.length>2
-            value=sentimenthash[key]
+            value=sentimenthash[key] # check if word is a sentiment word
             if notflag==1
                notcount+=1
             end
@@ -52,7 +61,7 @@ class SentimentController < ApplicationController
             end 
            if value!=nil
              if notflag==1 && notcount < 3
-                value=value*-1
+                value=value*-1 # changing the sentiment of a word if not is located atmost 3 words before the sentiment word
 	     else 
  	     notflag=0
 	     end
@@ -71,6 +80,7 @@ class SentimentController < ApplicationController
      if notflag=1 
        # score=-1*score
      end
+     # sentiment score of each sentence
      if score < 0
         negsscore +=score
         filescore -=1
@@ -83,11 +93,6 @@ class SentimentController < ApplicationController
 	type="POSITIVE"
      else
    	type="NEUTRAL"
-     end
-     if words.length > 3
-     resfile=File.new("/home/newscontext/rails_projects/articles/classification/resstmt","a+")
-     resfile.write(type+"\t"+line) 
-     resfile.close
      end
         
      result[nl][0]=line
@@ -111,7 +116,7 @@ class SentimentController < ApplicationController
   end
 
   def display
-     
+     # this function should be used to show the sentiment but during the function was used to generate the files 
 	@feeds= Feedentry.where(title: /.*Yahoo.*Tumblr.*/)
         c = 0
         @feeds.each do |feed| 

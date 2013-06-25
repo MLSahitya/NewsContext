@@ -4,14 +4,17 @@
 #making sparse vectors
 #/home/newscontext/mahout/bin/mahout seq2sparse -i /home/newscontext/mahout/examples/bin/clusters/files-seqdir1/ -o /home/newscontext/mahout/examples/bin/clusters/files-sparse1 -wt TFIDF --maxDFPercent 85 --namedVector -ow 
 
+MAHOUT_PATH="/home/newscontext/mahout" 
+PROJECT_PATH="/home/newscontext/rails_projects/articles"
+  
 # using canopy to identify the initial centroids of the clusters
-/home/newscontext/mahout/bin/mahout  canopy -i /home/newscontext/mahout/examples/bin/clus/files-sparse1/tfidf-vectors/ -o /home/newscontext/mahout/examples/bin/clus/initial-clusters1 -t1 $1 -t2 $2  -dm org.apache.mahout.common.distance.EuclideanDistanceMeasure -ow 
+$MAHOUT_PATH/bin/mahout  canopy -i $PROJECT_PATH/clus/files-sparse/tfidf-vectors/ -o $PROJECT_PATH/clus/initial-clusters -t1 $1 -t2 $2  -dm org.apache.mahout.common.distance.EuclideanDistanceMeasure -ow 
 
 #Kmeans clustering
-/home/newscontext/mahout/bin/mahout kmeans -i /home/newscontext/mahout/examples/bin/clus/files-sparse1/tfidf-vectors/ -c /home/newscontext/mahout/examples/bin/clus/initial-clusters1/clusters-*-final -o /home/newscontext/mahout/examples/bin/clus/kmeans1 -dm  org.apache.mahout.common.distance.TanimotoDistanceMeasure -cd 0.1 -x 15 -ow -cl -xm sequential #Tanimoto
+$MAHOUT_PATH/bin/mahout kmeans -i $PROJECT_PATH/clus/files-sparse/tfidf-vectors/ -c $PROJECT_PATH/clus/initial-clusters/clusters-*-final -o $PROJECT_PATH/clus/kmeans -dm  org.apache.mahout.common.distance.TanimotoDistanceMeasure -cd 0.1 -x 15 -ow -cl -xm sequential #Tanimoto
 
 #obtaining the clustering output in understandable format
-/home/newscontext/mahout/bin/mahout clusterdump -s /home/newscontext/mahout/examples/bin/clus/kmeans1/clusters-*-final -o /home/newscontext/rails_projects/articles/app/assets/clusterdump -d /home/newscontext/mahout/examples/bin/clus/files-sparse1/dictionary.file-0 -dt sequencefile -n 15 --evaluate -dm org.apache.mahout.common.distance.CosineDistanceMeasure -b 50 --pointsDir /home/newscontext/mahout/examples/bin/clus/kmeans1/clusteredPoints
+$MAHOUT_PATH/bin/mahout clusterdump -s $PROJECT_PATH/clus/kmeans/clusters-*-final -o $PROJECT_PATH/app/assets/clusterdump -d $PROJECT_PATH/clus/files-sparse/dictionary.file-0 -dt sequencefile -n 15 --evaluate -dm org.apache.mahout.common.distance.CosineDistanceMeasure -b 50 --pointsDir $PROJECT_PATH/clus/kmeans/clusteredPoints
 
 #getting the mapping of the files and their clusters
-/home/newscontext/mahout/bin/mahout seqdumper -s /home/newscontext/mahout/examples/bin/clus/kmeans1/clusteredPoints/part-m-* > /home/newscontext/rails_projects/articles/app/assets/cluster-points.txt
+$MAHOUT_PATH/bin/mahout seqdumper -s $PROJECT_PATH/clus/kmeans/clusteredPoints/part-m-* > $PROJECT_PATH/app/assets/cluster-points.txt
